@@ -7,6 +7,7 @@ import (
 	"mime/multipart"
 	"net/textproto"
 	"net/url"
+	"path"
 	"sync"
 )
 
@@ -86,7 +87,7 @@ func (mfr *MultiFileReader) Read(buf []byte) (written int, err error) {
 
 			// write the boundary and headers
 			header := make(textproto.MIMEHeader)
-			filename := url.QueryEscape(entry.Name())
+			filename := url.QueryEscape(path.Join(path.Join(mfr.path...), entry.Name()))
 			dispositionPrefix := "attachment"
 			if mfr.form {
 				dispositionPrefix = "form-data; name=\"file\""
